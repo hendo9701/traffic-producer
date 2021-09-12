@@ -1,0 +1,28 @@
+{
+  "list" : [
+    {
+      "id": "count-stream-1",
+      "latitude": 1.23666,
+      "longitude": -0.23666,
+      "streamStart": "2021/09/05 01:25",
+      "sensorId": "brussels-1",
+      "feature" : "count"
+    },
+    {
+      "id": "speed-stream-1",
+      "latitude": 1.23666,
+      "longitude": -0.23666,
+      "streamStart": "2021/09/05 01:25",
+      "sensorId": "brussels-2",
+      "feature" : "speed"
+    },
+    {
+      "id": "foo-stream-1",
+      "latitude": 1.23666,
+      "longitude": -0.23666,
+      "streamStart": "2021/09/05 01:25",
+      "sensorId": "brussels-3",
+      "feature" : "foo"
+    }
+  ]
+}
