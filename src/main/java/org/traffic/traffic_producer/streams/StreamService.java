@@ -91,7 +91,7 @@ public final class StreamService extends AbstractVerticle {
                               .map(__ -> ((String) __))
                               .collect(Collectors.toList());
                       log.debug(
-                          "Request to delete stream with ids in: []",
+                          "Request to delete stream with ids in: [{}]",
                           message.body().getJsonArray("list").encodePrettily());
                       repository
                           .deleteAllBy(sensors)
