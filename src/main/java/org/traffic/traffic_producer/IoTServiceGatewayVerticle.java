@@ -1,10 +1,5 @@
 package org.traffic.traffic_producer;
 
-import static java.lang.String.format;
-import static org.traffic.traffic_producer.observations.ObservationService.OBSERVATION_SERVICE_ADDRESS;
-import static org.traffic.traffic_producer.sensors.SensorService.SENSOR_SERVICE_ADDRESS;
-import static org.traffic.traffic_producer.streams.StreamService.STREAM_SERVICE_ADDRESS;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
@@ -19,11 +14,6 @@ import io.vertx.ext.web.client.predicate.ResponsePredicate;
 import io.vertx.ext.web.codec.BodyCodec;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.HttpEndpoint;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -31,6 +21,16 @@ import org.traffic.traffic_producer.observations.Observation;
 import org.traffic.traffic_producer.sensors.Sensor;
 import org.traffic.traffic_producer.streams.Stream;
 import org.traffic.traffic_producer.util.JsonCollector;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.lang.String.format;
+import static org.traffic.traffic_producer.observations.ObservationService.OBSERVATION_SERVICE_ADDRESS;
+import static org.traffic.traffic_producer.sensors.SensorService.SENSOR_SERVICE_ADDRESS;
+import static org.traffic.traffic_producer.streams.StreamService.STREAM_SERVICE_ADDRESS;
 
 @Slf4j
 public final class IoTServiceGatewayVerticle extends AbstractVerticle {
@@ -252,17 +252,7 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
 
   private Future<Set<Stream>> saveStreams(Set<Sensor> sensors) {
 
-    val streams =
-        sensors.stream()
-            .map(
-                sensor ->
-                    new Stream(
-                        sensor.getLatitude(),
-                        sensor.getLongitude(),
-                        LocalDateTime.now(),
-                        sensor.getId(),
-                        sensor.getQuantityKind()))
-            .collect(Collectors.toSet());
+    val streams = sensors.stream().map(Stream::new).collect(Collectors.toSet());
 
     val payload =
         new JsonObject()

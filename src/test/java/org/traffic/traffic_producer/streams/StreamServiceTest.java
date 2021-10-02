@@ -1,9 +1,5 @@
 package org.traffic.traffic_producer.streams;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.traffic.traffic_producer.streams.StreamService.STREAM_SERVICE_ADDRESS;
-
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -12,18 +8,19 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.traffic.traffic_producer.util.JsonCollector;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.traffic.traffic_producer.util.JsonCollector;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.traffic.traffic_producer.streams.StreamService.STREAM_SERVICE_ADDRESS;
 
 @ExtendWith(VertxExtension.class)
 @Slf4j

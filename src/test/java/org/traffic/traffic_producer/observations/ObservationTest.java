@@ -1,12 +1,8 @@
 package org.traffic.traffic_producer.observations;
 
-import static org.traffic.traffic_producer.observations.Observation.DATE_TIME_FORMATTER;
-
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxExtension;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +10,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
+import static org.traffic.traffic_producer.observations.Observation.DATE_TIME_FORMATTER;
 
 @Slf4j
 @ExtendWith(VertxExtension.class)

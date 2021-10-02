@@ -1,6 +1,7 @@
 package org.traffic.traffic_producer.streams;
 
 import io.vertx.core.Future;
+
 import java.util.List;
 
 public interface StreamRepository {

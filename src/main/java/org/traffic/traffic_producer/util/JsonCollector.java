@@ -1,6 +1,7 @@
 package org.traffic.traffic_producer.util;
 
 import io.vertx.core.json.JsonArray;
+
 import java.util.stream.Collector;
 
 public final class JsonCollector {
