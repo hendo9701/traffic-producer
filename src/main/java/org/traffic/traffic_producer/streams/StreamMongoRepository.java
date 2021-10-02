@@ -6,12 +6,13 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.BulkOperation;
 import io.vertx.ext.mongo.MongoClient;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.traffic.traffic_producer.util.JsonCollector;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class StreamMongoRepository implements StreamRepository {

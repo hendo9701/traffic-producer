@@ -1,7 +1,5 @@
 package org.traffic.traffic_producer;
 
-import static org.traffic.traffic_producer.streams.StreamMongoRepository.COLLECTION_NAME;
-
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -17,23 +15,21 @@ import io.vertx.redis.client.RedisOptions;
 import io.vertx.redis.client.ResponseType;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.HttpEndpoint;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.traffic.traffic_producer.sensors.Sensor;
+import org.traffic.traffic_producer.sensors.SensorMongoRepository;
+import org.traffic.traffic_producer.streams.Stream;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.traffic.traffic_producer.sensors.Sensor;
-import org.traffic.traffic_producer.sensors.SensorMongoRepository;
-import org.traffic.traffic_producer.streams.Stream;
+
+import static org.traffic.traffic_producer.streams.StreamMongoRepository.COLLECTION_NAME;
 
 @ExtendWith(VertxExtension.class)
 @Slf4j
@@ -113,7 +109,6 @@ class MainVerticleTest {
         .onComplete(testContext.succeedingThenComplete());
 
     if (testContext.failed()) throw testContext.causeOfFailure();
-
   }
 
   @AfterEach

@@ -1,28 +1,34 @@
 {
-  "list" : [
+  "list": [
     {
       "id": "count-stream-1",
-      "latitude": 1.23666,
-      "longitude": -0.23666,
+      "location": {
+        "latitude": 1.23666,
+        "longitude": -0.23666
+      },
       "streamStart": "2021/09/05 01:25",
       "sensorId": "LOU_TD1",
-      "feature" : "count"
+      "feature": "count"
     },
     {
       "id": "speed-stream-1",
-      "latitude": 1.23666,
-      "longitude": -0.23666,
+      "location": {
+        "latitude": 1.23666,
+        "longitude": -0.23666
+      },
       "streamStart": "2021/09/05 01:25",
       "sensorId": "ARL_103",
-      "feature" : "speed"
+      "feature": "speed"
     },
     {
       "id": "foo-stream-1",
-      "latitude": 1.23666,
-      "longitude": -0.23666,
+      "location": {
+        "latitude": 1.23666,
+        "longitude": -0.23666
+      },
       "streamStart": "2021/09/05 01:25",
       "sensorId": "LOU_TD1",
-      "feature" : "foo"
+      "feature": "foo"
     }
   ]
 }
