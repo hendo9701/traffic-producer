@@ -51,11 +51,11 @@ class StreamServiceTest {
 
     mockedRepository = mock(StreamRepository.class);
     when(mockedRepository.findAll()).thenReturn(Future.succeededFuture(manyStreams));
-    when(mockedRepository.find(oneStream.sensorId, oneStream.feature))
+    when(mockedRepository.find(oneStream.generatedBy, oneStream.feature))
         .thenReturn(Future.succeededFuture(oneStream));
     when(mockedRepository.save(oneStream)).thenReturn(Future.succeededFuture(oneStream));
     when(mockedRepository.saveAll(manyStreams)).thenReturn(Future.succeededFuture(manyStreams));
-    when(mockedRepository.deleteAllBy(List.of(oneStream.sensorId)))
+    when(mockedRepository.deleteAllBy(List.of(oneStream.generatedBy)))
         .thenReturn(Future.succeededFuture(List.of(oneStream)));
   }
 
@@ -170,7 +170,7 @@ class StreamServiceTest {
       "When a request to fetch one stream given the sensorId and feature to "
           + "the repository, the result must be a stream matching the above criteria")
   void findOneTest(Vertx vertx, VertxTestContext testContext) throws Throwable {
-    val sensorId = oneStream.sensorId;
+    val sensorId = oneStream.generatedBy;
     val feature = oneStream.feature;
     val action = new DeliveryOptions().addHeader("action", "findOne");
     vertx
@@ -203,7 +203,7 @@ class StreamServiceTest {
         .eventBus()
         .<JsonObject>request(
             STREAM_SERVICE_ADDRESS,
-            new JsonObject().put("list", new JsonArray().add(oneStream.sensorId)),
+            new JsonObject().put("list", new JsonArray().add(oneStream.generatedBy)),
             action)
         .onComplete(
             testContext.succeeding(

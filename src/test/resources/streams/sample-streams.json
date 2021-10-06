@@ -7,7 +7,7 @@
         "longitude": -0.23666
       },
       "streamStart": "2021/09/05 01:25",
-      "sensorId": "brussels-1",
+      "generatedBy": "brussels-1",
       "feature": "count"
     },
     {
@@ -17,7 +17,7 @@
         "longitude": -0.23666
       },
       "streamStart": "2021/09/05 01:25",
-      "sensorId": "brussels-2",
+      "generatedBy": "brussels-2",
       "feature": "speed"
     },
     {
@@ -27,7 +27,7 @@
         "longitude": -0.23666
       },
       "streamStart": "2021/09/05 01:25",
-      "sensorId": "brussels-3",
+      "generatedBy": "brussels-3",
       "feature": "foo"
     }
   ]

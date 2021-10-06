@@ -46,7 +46,7 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
 
     // Setting service configuration
 
-    val useSsl = config().getBoolean("useSsl");
+    val useSsl = config().getBoolean("use-ssl");
 
     val dataSet = config().getJsonObject("dataset");
 
@@ -83,8 +83,8 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
 
     HttpRequest<JsonObject> sensorFetchRequest =
         webClient
-            .get(endpoint)
-            .ssl(useSsl)
+            .getAbs(endpoint)
+//            .ssl(useSsl)
             .putHeader("Accept", "application/json")
             .addQueryParam("request", sensorRequestParam)
             .as(BodyCodec.jsonObject())
@@ -162,8 +162,8 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
               val id = feature.getJsonObject("properties").getString("traverse_name");
 
               return List.of(
-                  new Sensor(id, latitude, longitude, "speed", "km"),
-                  new Sensor(id, latitude, longitude, "count", "unit"));
+                  new Sensor(id + "1", latitude, longitude, "speed", "km"),
+                  new Sensor(id + "2", latitude, longitude, "count", "unit"));
             })
         .flatMap(Collection::stream)
         .collect(Collectors.toSet());
@@ -320,7 +320,7 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
                 list.stream()
                     .collect(
                         Collectors.groupingBy(
-                            stream -> ImmutablePair.of(stream.getSensorId(), stream.getFeature()))))
+                            stream -> ImmutablePair.of(stream.getGeneratedBy(), stream.getFeature()))))
         .map(
             sensorIdAndFeatureToStream ->
                 sensorIds.stream()

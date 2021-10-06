@@ -141,7 +141,7 @@ class StreamMongoRepositoryTest {
     mongoClient
         .insert(COLLECTION_NAME, oneStream)
         .onComplete(testContext.succeeding(result -> testContext.verify(insertedCheckpoint::flag)))
-        .compose(__ -> repository.find(expected.sensorId, expected.feature))
+        .compose(__ -> repository.find(expected.generatedBy, expected.feature))
         .onComplete(
             testContext.succeeding(
                 result ->
@@ -271,7 +271,7 @@ class StreamMongoRepositoryTest {
         .compose(
             __ ->
                 repository.findAll(
-                    expected.stream().map(Stream::getSensorId).collect(Collectors.toList())))
+                    expected.stream().map(Stream::getGeneratedBy).collect(Collectors.toList())))
         .onComplete(
             testContext.succeeding(
                 result ->
@@ -326,7 +326,7 @@ class StreamMongoRepositoryTest {
             __ ->
                 repository.deleteAllBy(
                     java.util.stream.Stream.of(Stream.fromJson(oneStream))
-                        .map(Stream::getSensorId)
+                        .map(Stream::getGeneratedBy)
                         .collect(Collectors.toList())))
         .map(
             result -> {
@@ -339,7 +339,7 @@ class StreamMongoRepositoryTest {
             __ ->
                 mongoClient.find(
                     COLLECTION_NAME,
-                    new JsonObject().put("sensorId", Stream.fromJson(oneStream).getSensorId())))
+                    new JsonObject().put("sensorId", Stream.fromJson(oneStream).getGeneratedBy())))
         .onComplete(
             testContext.succeeding(
                 result ->

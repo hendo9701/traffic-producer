@@ -12,9 +12,10 @@
   },
   "service-gateway": {
     "frequency": 300000,
-    "use-ssl": true,
+    "use-ssl": false,
+    "auto-fetch-observations": true,
     "dataset": {
-      "endpoint": "https://data.mobility.brussels/traffic/api/counts/",
+      "endpoint": "https://data.mobility.brussels/traffic/api/counts",
       "observation-request-param": "live",
       "sensor-request-param": "devices",
       "outputFormat": "json",

@@ -23,15 +23,15 @@ public class Stream {
 
   String id;
   LocalDateTime streamStart;
-  String sensorId;
+  String generatedBy;
   String feature;
   Point location;
 
   public Stream(Sensor sensor) {
+    this.feature = sensor.getQuantityKind();
     this.id = UUID.randomUUID() + "-" + feature;
     this.streamStart = LocalDateTime.now();
-    this.sensorId = sensor.getId();
-    this.feature = sensor.getQuantityKind();
+    this.generatedBy = sensor.getId();
     this.location = new Point(sensor.getLatitude(), sensor.getLongitude());
   }
 
@@ -39,7 +39,7 @@ public class Stream {
     return new Stream(
         json.getString("id"),
         LocalDateTime.parse(json.getString("streamStart"), DATE_TIME_FORMATTER),
-        json.getString("sensorId"),
+        json.getString("generatedBy"),
         json.getString("feature"),
         Point.fromJson(json.getJsonObject("location")));
   }
@@ -49,7 +49,7 @@ public class Stream {
         .put("id", stream.id)
         .put("location", Point.asJson(stream.location))
         .put("streamStart", stream.streamStart.format(DATE_TIME_FORMATTER))
-        .put("sensorId", stream.sensorId)
+        .put("generatedBy", stream.generatedBy)
         .put("feature", stream.feature);
   }
 
@@ -62,13 +62,13 @@ public class Stream {
         && streamStart
             .truncatedTo(ChronoUnit.MINUTES)
             .isEqual(stream.streamStart.truncatedTo(ChronoUnit.MINUTES))
-        && sensorId.equals(stream.sensorId)
+        && generatedBy.equals(stream.generatedBy)
         && feature.equals(stream.feature)
         && location.equals(stream.location);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, streamStart, sensorId, feature, location);
+    return Objects.hash(id, streamStart, generatedBy, feature, location);
   }
 }
