@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.traffic.traffic_producer.point.Point;
 import org.traffic.traffic_producer.sensors.Sensor;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Stream {
 
   public static final DateTimeFormatter DATE_TIME_FORMATTER =

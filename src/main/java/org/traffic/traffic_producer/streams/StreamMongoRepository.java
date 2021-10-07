@@ -67,7 +67,7 @@ public class StreamMongoRepository implements StreamRepository {
   @Override
   public Future<Stream> find(@NonNull String sensorId, @NonNull String feature) {
     Promise<Stream> promise = Promise.promise();
-    val filter = new JsonObject().put("sensorId", sensorId).put("feature", feature);
+    val filter = new JsonObject().put("generatedBy", sensorId).put("feature", feature);
     client
         .findOne(COLLECTION_NAME, filter, null)
         .onSuccess(
@@ -96,7 +96,7 @@ public class StreamMongoRepository implements StreamRepository {
     val filter =
         new JsonObject()
             .put(
-                "sensorId",
+                "generatedBy",
                 new JsonObject()
                     .put("$in", sensorIds.stream().collect(JsonCollector.toJsonArray())));
     return client

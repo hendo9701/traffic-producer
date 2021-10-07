@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.lang.String.valueOf;
 import static org.traffic.traffic_producer.observations.ObservationService.OBSERVATION_SERVICE_ADDRESS;
 import static org.traffic.traffic_producer.sensors.SensorService.SENSOR_SERVICE_ADDRESS;
 import static org.traffic.traffic_producer.streams.StreamService.STREAM_SERVICE_ADDRESS;
@@ -68,14 +69,13 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
 
     observationFetchRequest =
         webClient
-            .get(endpoint)
-            .ssl(useSsl)
+            .getAbs(endpoint)
             .putHeader("Accept", "application/json")
             .addQueryParam("request", observationRequestParam)
             .addQueryParam("outputFormat", outputFormatParam)
-            .addQueryParam("interval", String.valueOf(intervalParam))
-            .addQueryParam("includeLanes", String.valueOf(includeLanesParam))
-            .addQueryParam("singleValue", String.valueOf(singleValueParam))
+            .addQueryParam("interval", valueOf(intervalParam))
+            .addQueryParam("includeLanes", valueOf(includeLanesParam))
+            .addQueryParam("singleValue", valueOf(singleValueParam))
             .as(BodyCodec.jsonObject())
             .expect(ResponsePredicate.SC_OK);
 
@@ -84,7 +84,7 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
     HttpRequest<JsonObject> sensorFetchRequest =
         webClient
             .getAbs(endpoint)
-//            .ssl(useSsl)
+            //            .ssl(useSsl)
             .putHeader("Accept", "application/json")
             .addQueryParam("request", sensorRequestParam)
             .as(BodyCodec.jsonObject())
@@ -162,8 +162,8 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
               val id = feature.getJsonObject("properties").getString("traverse_name");
 
               return List.of(
-                  new Sensor(id + "1", latitude, longitude, "speed", "km"),
-                  new Sensor(id + "2", latitude, longitude, "count", "unit"));
+                  new Sensor(id + "_SPEED", latitude, longitude, "speed", "km"),
+                  new Sensor(id + "_COUNT", latitude, longitude, "count", "unit"));
             })
         .flatMap(Collection::stream)
         .collect(Collectors.toSet());
@@ -237,8 +237,7 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
                                             "Patching stream: [{}]",
                                             Stream.asJson(stream).encodePrettily());
                                         return webClient
-                                            .patch(
-                                                String.format("/api/v1/streams/%s", stream.getId()))
+                                            .patch(format("/api/v1/streams/%s", stream.getId()))
                                             .expect(ResponsePredicate.SC_NO_CONTENT)
                                             .send();
                                       })
@@ -320,7 +319,8 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
                 list.stream()
                     .collect(
                         Collectors.groupingBy(
-                            stream -> ImmutablePair.of(stream.getGeneratedBy(), stream.getFeature()))))
+                            stream ->
+                                ImmutablePair.of(stream.getGeneratedBy(), stream.getFeature()))))
         .map(
             sensorIdAndFeatureToStream ->
                 sensorIds.stream()
@@ -339,12 +339,12 @@ public final class IoTServiceGatewayVerticle extends AbstractVerticle {
                           val timeKey = format("%dm", interval);
                           val countStreamId =
                               sensorIdAndFeatureToStream
-                                  .get(ImmutablePair.of(sensorId, "count"))
+                                  .get(ImmutablePair.of(format("%s_COUNT", sensorId), "count"))
                                   .get(0)
                                   .getId();
                           val speedStreamId =
                               sensorIdAndFeatureToStream
-                                  .get(ImmutablePair.of(sensorId, "speed"))
+                                  .get(ImmutablePair.of(format("%s_SPEED", sensorId), "speed"))
                                   .get(0)
                                   .getId();
                           val sensorRead =

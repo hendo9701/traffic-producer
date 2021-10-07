@@ -180,10 +180,12 @@ class MainVerticleTest {
               val sensor = routingContext.getBodyAsJson();
               val response = routingContext.response();
               if (sampleSensors.contains(Sensor.fromJson(sensor))) {
+                log.debug("Sensor registered correctly: {}", sensor);
                 response.setStatusCode(201);
                 response.end(sensor.toBuffer());
                 sensorsRegistrationReceived.flag();
               } else {
+                log.debug("Sensor registration failed: {}", sensor);
                 response.setStatusCode(400);
                 response.end();
               }
@@ -297,7 +299,8 @@ class MainVerticleTest {
       "When main verticle is deployed and the database contains streams from previous runs,"
           + " then for each streams a request is made to the public repository mark them as"
           + " closed  and the same streams gets removed from the local database")
-  void closeStreamsWhenStartingApplication(Vertx vertx, VertxTestContext testContext) {
+  void closeStreamsWhenStartingApplication(Vertx vertx, VertxTestContext testContext)
+      throws InterruptedException {
 
     System.setProperty("vertx-config-path", "conf/config-without-autofetch.json");
 
@@ -344,7 +347,7 @@ class MainVerticleTest {
     registryRouter
         .post("/api/v1/*")
         .consumes("application/json")
-        .produces("application/json")
+        .produces("text/turtle")
         .handler(BodyHandler.create())
         .handler(
             routingContext ->
@@ -404,7 +407,7 @@ class MainVerticleTest {
         .compose(__ -> vertx.deployVerticle(new MainVerticle()))
         .onComplete(testContext.succeeding(id -> testContext.verify(mainVerticleDeployed::flag)));
 
-    //    Assertions.assertTrue(testContext.awaitCompletion(5, TimeUnit.SECONDS));
+    Assertions.assertTrue(testContext.awaitCompletion(5, TimeUnit.SECONDS));
   }
 
   private static Set<Sensor> parseSensors(JsonObject sensorsRaw) {
@@ -417,8 +420,8 @@ class MainVerticleTest {
               val longitude =
                   raw.getJsonObject("geometry").getJsonArray("coordinates").getDouble(1);
               val id = raw.getJsonObject("properties").getString("traverse_name");
-              sensors.add(new Sensor(id, latitude, longitude, "speed", "km"));
-              sensors.add(new Sensor(id, latitude, longitude, "count", "unit"));
+              sensors.add(new Sensor(id + "_SPEED", latitude, longitude, "speed", "km"));
+              sensors.add(new Sensor(id + "_COUNT", latitude, longitude, "count", "unit"));
             });
     return sensors;
   }

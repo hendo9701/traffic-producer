@@ -12,7 +12,7 @@
   },
   "service-gateway": {
     "frequency": 300000,
-    "use-ssl": true,
+    "use-ssl": false,
     "dataset": {
       "endpoint": "http://localhost:80/brussels/api",
       "observation-request-param": "live",

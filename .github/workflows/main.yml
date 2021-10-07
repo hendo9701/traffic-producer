@@ -5,7 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-    
+
   workflow_dispatch:
 
 jobs:
@@ -18,15 +18,15 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      
+
       - name: Set up test containers
         run: docker-compose -f "src/test/docker/docker-compose.yml" up -d --build
-        
+
       - name: Run tests
         run: sudo mvn -B test --file pom.xml
-      
-        
-        
-        
-        
-        
+
+
+
+
+
+
